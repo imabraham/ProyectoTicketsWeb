@@ -38,16 +38,16 @@ function registrarEmpleado(req, res){
         console.log(req.body);
         const empleado = req.body;
 
-        if(!empleado.nombre){
-            return res.status(400).send({error: true, mensaje: "El nombre es obligatorio"});
+        if(!empleado.prsnl_nombre && empleando.prsnl_nombre.length <= 50){
+            return res.status(400).send({error: true, mensaje: "El nombre es obligatorio y debe tener un máximo de 50 caracteres"});
         }
 
-        if(!empleado.apellidos){
-            return res.status(400).send({error: true, mensaje: "El apellido es obligatorio"});
+        if(!empleado.prsnl_apellidos && empleando.prsnl_apellidos.length <= 80){
+            return res.status(400).send({error: true, mensaje: "El apellido es obligatorio y debe tener un máximo de 80 caracteres"});
         }
 
-        if(empleado.telefono && empleado.telefono.length !== 10){
-            return res.status(400).send({error: true, mensaje: "La longitud debe ser de 10 caracteres"});
+        if(empleado.prsnl_telefono && empleado.prsnl_telefono.length !== 10){
+            return res.status(400).send({error: true, mensaje: "El télefono debe tener 10 dígitos"});
         }
 
         let sql = "insert into PERSONAL set ?";
@@ -127,7 +127,7 @@ function registrarCategoria(req, res){
         console.log(req.body);
         const categoria = req.body;
 
-        if(!categoria.nombre){
+        if(!categoria.ctgrs_nombre){
             return res.status(400).send({error: true, mensaje: "El nombre es obligatorio"});
         }
 
@@ -182,23 +182,23 @@ function registrarTickets(req, res){
         console.log(req.body);
         const ticket = req.body;
 
-        if(!ticket.nombre){
+        if(!ticket.tckts_nombre){
             return res.status(400).send({error: true, mensaje: "El nombre es obligatorio"});
         }
 
-        if(!ticket.prioridad){
+        if(!ticket.tckts_prioridad){
             return res.status(400).send({error: true, mensaje: "La prioridad es obligatoria"});
         }
 
-        if(!ticket.estatus){
+        if(!ticket.tckts_estatus){
             return res.status(400).send({error: true, mensaje: "El estatus es obligatorio"});
         }
 
-        if(!ticket.personal){
+        if(!ticket.prsnl_id){
             return res.status(400).send({error: true, mensaje: "El id del empleado es obligatorio"});
         }
 
-        if(!ticket.categoria){
+        if(!ticket.ctgrs_id){
             return res.status(400).send({error: true, mensaje: "El id de la categoría es obligatorio"});
         }
 
