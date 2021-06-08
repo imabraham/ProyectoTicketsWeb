@@ -3,12 +3,11 @@ const connection = require('../config/connection');
 function obtenerEmpleados(req, res) {
     if(connection) {
         let sql = "select * from PERSONAL";
-        connection.query(sql, (err, empleados) => {
+        connection.query(sql, (err, personal) => {
             if(err) {
                 res.json(err);
             } else {
-                console.log(empleados);
-                res.json(empleados);
+                res.json(personal);
             }
         });
     }
@@ -35,21 +34,21 @@ function obtenerEmpleado(req, res) {
 
 function registrarEmpleado(req, res){
     if(connection){
-        console.log(req.body);
+        
         const empleado = req.body;
 
-        if(!empleado.prsnl_nombre && empleando.prsnl_nombre.length <= 50){
+        if(!empleado.nombre && empleando.nombre.length <= 50){
             return res.status(400).send({error: true, mensaje: "El nombre es obligatorio y debe tener un máximo de 50 caracteres"});
         }
 
-        if(!empleado.prsnl_apellidos && empleando.prsnl_apellidos.length <= 80){
+        if(!empleado.apellidos && empleando.apellidos.length <= 80){
             return res.status(400).send({error: true, mensaje: "El apellido es obligatorio y debe tener un máximo de 80 caracteres"});
         }
 
-        if(empleado.prsnl_telefono && empleado.prsnl_telefono.length !== 10){
+        if(empleado.telefono && empleado.telefono.length !== 10){
             return res.status(400).send({error: true, mensaje: "El télefono debe tener 10 dígitos"});
         }
-
+        console.log(req.body);
         let sql = "insert into PERSONAL set ?";
 
         connection.query(sql, [empleado], (err, data) => {
@@ -64,10 +63,10 @@ function registrarEmpleado(req, res){
 
 function actualizarEmpleado(req, res) {
     if(connection){
-        const { id } = req.params;
+        const id = req.body.id;
         const empleado = req.body;
 
-        let sql = "update PERSONAL set ? where prsnl_id = ?";
+        let sql = "update PERSONAL set ? where id = ?";
 
         connection.query(sql, [empleado, id], (err, data) => {
             if(err) {
@@ -115,19 +114,20 @@ function obtenerCategorias(req, res) {
             if(err) {
                 res.json(err);
             } else {
-                console.log(categorias);
                 res.json(categorias);
             }
         });
     }
 }
 
+
 function registrarCategoria(req, res){
+    console.log(req.body)
     if(connection){
         console.log(req.body);
         const categoria = req.body;
 
-        if(!categoria.ctgrs_nombre){
+        if(!categoria.nombre){
             return res.status(400).send({error: true, mensaje: "El nombre es obligatorio"});
         }
 
@@ -150,7 +150,6 @@ function obtenerTickets(req, res) {
             if(err) {
                 res.json(err);
             } else {
-                console.log(tickets);
                 res.json(tickets);
             }
         });
@@ -182,23 +181,23 @@ function registrarTickets(req, res){
         console.log(req.body);
         const ticket = req.body;
 
-        if(!ticket.tckts_nombre){
+        if(!ticket.nombre){
             return res.status(400).send({error: true, mensaje: "El nombre es obligatorio"});
         }
 
-        if(!ticket.tckts_prioridad){
+        if(!ticket.prioridad){
             return res.status(400).send({error: true, mensaje: "La prioridad es obligatoria"});
         }
 
-        if(!ticket.tckts_estatus){
+        if(!ticket.estatus){
             return res.status(400).send({error: true, mensaje: "El estatus es obligatorio"});
         }
 
-        if(!ticket.prsnl_id){
+        if(!ticket.idPersona){
             return res.status(400).send({error: true, mensaje: "El id del empleado es obligatorio"});
         }
 
-        if(!ticket.ctgrs_id){
+        if(!ticket.idCategoria){
             return res.status(400).send({error: true, mensaje: "El id de la categoría es obligatorio"});
         }
 
@@ -216,10 +215,10 @@ function registrarTickets(req, res){
 
 function modificarTicket(req, res) {
     if(connection){
-        const { id } = req.params;
+        const id = req.body.id;
         const ticket = req.body;
 
-        let sql = "update TICKETS set ? where tckts_id = ?";
+        let sql = "update TICKETS set ? where id = ?";
 
         connection.query(sql, [ticket, id], (err, data) => {
             if(err) {
@@ -239,6 +238,34 @@ function modificarTicket(req, res) {
     }
 }
 
+function borrarCategoria(req,res){
+    const {id} = req.params;
+    let sqlBorrar = "delete from CATEGORIAS where id = ?";
+    connection.query(sqlBorrar,[id],(err,data)=>{
+        if(err){
+            res.json({mesaje:'error no se pudo borrar'});
+        }else{
+            res.json({mensaje:'Borrado correctamente'});
+        }
+    })
+
+}
+
+function eliminarTiket(req,res){
+    const {id} = req.params;
+    let sqlBorrar = "delete from TICKETS where id = ?";
+    connection.query(sqlBorrar,[id],(err,data)=>{
+        if(err){
+            res.json({mesaje:'error no se pudo borrar'});
+        }else{
+            res.json({mensaje:'Borrado correctamente'});
+        }
+    })
+
+}
+
+
+
 module.exports = {
     obtenerEmpleados,
     obtenerEmpleado,
@@ -250,5 +277,7 @@ module.exports = {
     obtenerTickets,
     obtenerTicket,
     registrarTickets,
-    modificarTicket
+    modificarTicket,
+    borrarCategoria,
+    eliminarTiket
 }
