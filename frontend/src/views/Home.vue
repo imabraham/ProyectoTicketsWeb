@@ -1,18 +1,37 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div class="container">
+
+    <NavbarComponent/>
+
+    <h2>Tikets</h2>
+    <div v-for="tik in get_tikets" :key="tik.id">
+      <TarjetaComponent :tiket="tik"/>
+    </div>
+    
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+
+import TarjetaComponent from '@/components/TarjetaComponent.vue'
+import NavbarComponent from '@/components/NavbarComponent.vue'
+import {mapActions,mapGetters} from 'vuex'
 
 export default {
-  name: "Home",
-  components: {
-    HelloWorld,
+  name: 'Home',
+  components:{
+    TarjetaComponent,
+    NavbarComponent
   },
-};
+  methods:{
+    ...mapActions(['obtenerTikets'])
+  },
+  computed:{
+    ...mapGetters(['get_tikets'])
+  },
+  mounted(){
+    this.obtenerTikets();
+  }
+
+}
 </script>

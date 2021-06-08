@@ -1,11 +1,16 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import VerCategorias from '../views/VerCategorias'
-import RegistrarCategoria from '../views/RegistrarCategoria'
-import VerEmpleados from '../views/VerEmpleados'
-import RegistrarEmpleado from '../views/RegistrarEmpleado'
-import EditarEmpleado from '../views/EditarEmpleado'
+import AccionesCategoria from '../views/Categorias/AccionesCategoria.vue'
+import ObtenerPersonas from '../views/personas/ObtenerPersonas.vue'
+import AgregarPersona from '../views/personas/AgregarPersona.vue'
+import EditarPersonas from '../views/personas/EditarPersonas.vue'
+import ObtenerTickets from '../views/Tikets/ObtenerTickets.vue'
+import AgregarTiket from '../views/Tikets/AgregarTiket.vue'
+import EditarTiket from '../views/Tikets/EditarTiket.vue'
+
+
+
 
 Vue.use(VueRouter)
 
@@ -16,30 +21,42 @@ const routes = [
     component: Home
   },
   {
-    path: '/VerCategorias',
-    name: 'VerCategorias',
-    component: VerCategorias
+    path: '/Categorias',
+    name: 'AccionesCategoria',
+    component: AccionesCategoria
   },
   {
-    path: '/RegistrarCategoria',
-    name: 'RegistrarCategoria',
-    component: RegistrarCategoria
+    path: '/Personas',
+    name: 'ObtenerPersonas',
+    component: ObtenerPersonas
   },
   {
-    path: '/VerEmpleados',
-    name: 'VerEmpleados',
-    component: VerEmpleados
+    path: '/AgregarPersona',
+    name: 'AgregarPersona',
+    component: AgregarPersona
   },
   {
-    path: '/RegistrarEmpleado',
-    name: 'RegistrarEmpleado',
-    component: RegistrarEmpleado
+    path: '/EditarPersonas',
+    name: 'EditarPersonas',
+    component: EditarPersonas
   },
   {
-    path: '/EditarEmpleado',
-    name: 'EditarEmpleado',
-    component: EditarEmpleado
+    path: '/Tikets',
+    name: 'ObtenerTickets',
+    component: ObtenerTickets
   },
+  {
+    path: '/AgregarTiket',
+    name: 'AgregarTiket',
+    component: AgregarTiket
+  },
+  {
+    path: '/EditarTiket',
+    name: 'EditarTiket',
+    component: EditarTiket
+  }
+
+  
 ]
 
 const router = new VueRouter({
